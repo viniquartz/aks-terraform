@@ -15,3 +15,7 @@ variable "tags" {
   description = "Tags to be used in all resources of the network module"
   default = {}
 }
+
+variable "kubelet_identity" {
+  default = ""
+}

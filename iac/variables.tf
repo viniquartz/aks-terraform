@@ -1,5 +1,5 @@
 variable "resource_group_name" {
-  default = "rg-viniquartz-lab001"
+  default = "rg-viniquartz"
 }
 
 variable "location" {

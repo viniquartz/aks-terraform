@@ -6,14 +6,14 @@ module "rg" {
   tags                = local.tags
 }
 
-module "network-hub" {
-  source              = "./modules/network-hub"
-  resource_group_name = module.rg.rg-management-name
-  location            = var.location
-  name_project        = var.name_project
-  tags                = local.tags
-  depends_on          = [module.rg]
-}
+# module "network-hub" {
+#   source              = "./modules/network-hub"
+#   resource_group_name = module.rg.rg-management-name
+#   location            = var.location
+#   name_project        = var.name_project
+#   tags                = local.tags
+#   depends_on          = [module.rg]
+# }
 
 # module "network-spoke-aks" {
 #   source              = "./modules/network-spoke-aks"
@@ -36,5 +36,17 @@ module "cluster-aks" {
   resource_group_name = module.rg.rg-aks-name
   name_project        = var.name_project
   key_data            = module.ssh.key_data
+  tags = local.tags
   depends_on          = [module.rg, module.ssh]
 }
+
+
+module "acr" {
+  source            = "./modules/acr"
+  location          = var.location
+  resource_group_name = module.rg.rg-aks-name
+  kubelet_identity = module.cluster-aks.kubelet_identity
+  tags              = local.tags
+  depends_on        = [module.rg, module.cluster-aks]
+}
+
