@@ -39,3 +39,5 @@ terraform.rc
 *backend-config.tfbackend*
 
 help.txt
+azurek8s
+*.tfplan
