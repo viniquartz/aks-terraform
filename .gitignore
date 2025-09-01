@@ -40,4 +40,4 @@ terraform.rc
 
 help.txt
 azurek8s
-*.tfplan
+*tfplan*
