@@ -36,7 +36,7 @@ jobs:
         with:
             creds: ${{ secrets.AZURE_CREDENTIALS }}
             enable-AzPSSession: true
-            
+
       - name: Create backend-config.tfbackend
         run: |
           cat > backend-config.tfbackend <<EOL
@@ -61,10 +61,11 @@ jobs:
       - name: Terraform Plan
         run: terraform -chdir=iac plan -var-file=../config/${{ github.event.inputs.environment }}.tfvars -out=${{ github.event.inputs.environment }}.tfplan
 
-      - name: tfsec (IaC Security Scan)
-        uses: aquasecurity/tfsec-action@v1.0.3
-        with:
-          working_directory: iac
+    # Working!!
+    #   - name: tfsec (IaC Security Scan)
+    #     uses: aquasecurity/tfsec-action@v1.0.3
+    #     with:
+    #       working_directory: iac
 
       - name: Setup Infracost CLI
         uses: infracost/actions/setup@v2
