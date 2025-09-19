@@ -12,6 +12,10 @@ on:
           - staging
           - production
 
+permissions:
+  id-token: write
+  contents: read
+
 jobs:
   terraform-plan:
     name: Terraform Plan
@@ -34,6 +38,7 @@ jobs:
           tenant-id: ${{ secrets.AZURE_TENANT_ID }}
           subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
           client-secret: ${{ secrets.AZURE_CLIENT_SECRET }}
+          enable-AzPSSession: false
 
       - name: Create backend-config.tfbackend
         run: |
@@ -106,6 +111,7 @@ jobs:
           tenant-id: ${{ secrets.AZURE_TENANT_ID }}
           subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
           client-secret: ${{ secrets.AZURE_CLIENT_SECRET }}
+          enable-AzPSSession: false
 
       - name: Criar backend-config.tfbackend
         run: |
