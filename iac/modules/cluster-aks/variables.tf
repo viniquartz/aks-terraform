@@ -12,8 +12,6 @@ variable "name_project" {
 
 variable "tags" {
   type        = map(string)
-  description = "Tags to be used in all resources of the network module"
-  default = {}
 }
 
 variable "vnet-spoke-id" {
@@ -30,4 +28,9 @@ variable "spoke-subnet-appgateway" {
 
 variable "key_data" {
   default = ""
+}
+
+variable "cluster_name" {
+  description = "Name of the AKS cluster"
+  type        = string
 }

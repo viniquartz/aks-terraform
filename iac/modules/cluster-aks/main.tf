@@ -1,16 +1,8 @@
-resource "random_pet" "azurerm_kubernetes_cluster_name" {
-  prefix = "cluster"
-}
-
-resource "random_pet" "azurerm_kubernetes_cluster_dns_prefix" {
-  prefix = "dns"
-}
-
 resource "azurerm_kubernetes_cluster" "k8s" {
   location            = var.location
-  name                = random_pet.azurerm_kubernetes_cluster_name.id
+  name                = "${var.cluster_name}-${var.name_project}"
   resource_group_name = var.resource_group_name
-  dns_prefix          = random_pet.azurerm_kubernetes_cluster_dns_prefix.id
+  dns_prefix          = "${var.cluster_name}${var.name_project}vini"
 
   identity {
     type = "SystemAssigned"
