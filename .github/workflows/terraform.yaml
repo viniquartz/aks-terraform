@@ -65,7 +65,7 @@ jobs:
           working_directory: iac
 
       - name: Infracost Breakdown
-        uses: infracost/infracost-gh-action@v2
+        uses: infracost/infracost-gh-action@2.1.2
         with:
           path: iac
           terraform_plan_flags: "-var-file=../config/${{ github.event.inputs.environment }}.tfvars"
