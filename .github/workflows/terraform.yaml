@@ -64,15 +64,18 @@ jobs:
         with:
           working_directory: iac
 
-      - name: Infracost Breakdown
-        uses: infracost/infracost-gh-action@2.1.2
+      - name: Setup Infracost CLI
+        uses: infracost/actions/setup@v2
         with:
-          path: iac
-          terraform_plan_flags: "-var-file=../config/${{ github.event.inputs.environment }}.tfvars"
-          usage_file: infracost-usage.yml
-        env:
-          INFRACOST_API_KEY: ${{ secrets.INFRACOST_API_KEY }}
+            api-key: ${{ secrets.INFRACOST_API_KEY }}
 
+      - name: Infracost Breakdown
+        run: |
+            infracost breakdown \
+            --path iac \
+            --var-file config/${{ github.event.inputs.environment }}.tfvars \
+            --usage-file infracost-usage.yml \
+            --format table
 
       - name: Upload Plan Artifact
         uses: actions/upload-artifact@v4
