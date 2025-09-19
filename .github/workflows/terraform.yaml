@@ -31,15 +31,12 @@ jobs:
         with:
           terraform_version: 1.9.7
 
-      - name: Log in to Azure
+      - name: Azure Login action
         uses: azure/login@v2
         with:
-          client-id: ${{ secrets.AZURE_CLIENT_ID }}
-          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
-          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
-          client-secret: ${{ secrets.AZURE_CLIENT_SECRET }}
-          enable-AzPSSession: false
-
+            creds: ${{ secrets.AZURE_CREDENTIALS }}
+            enable-AzPSSession: true
+            
       - name: Create backend-config.tfbackend
         run: |
           cat > backend-config.tfbackend <<EOL
