@@ -65,7 +65,7 @@ jobs:
           working_directory: iac
 
       - name: Infracost - cost estimation
-        uses: infracost/actions@v3
+        uses: infracost/actions@v2
         with:
           path: iac
           terraform-plan-flags: "-var-file=../config/${{ github.event.inputs.environment }}.tfvars"
