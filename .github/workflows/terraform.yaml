@@ -64,14 +64,15 @@ jobs:
         with:
           working_directory: iac
 
-      - name: Infracost - cost estimation
-        uses: infracost/actions@v2
+      - name: Infracost Breakdown
+        uses: infracost/infracost-gh-action@v3
         with:
           path: iac
-          terraform-plan-flags: "-var-file=../config/${{ github.event.inputs.environment }}.tfvars"
+          terraform_plan_flags: "-var-file=../config/${{ github.event.inputs.environment }}.tfvars"
           usage_file: infracost-usage.yml
         env:
           INFRACOST_API_KEY: ${{ secrets.INFRACOST_API_KEY }}
+
 
       - name: Upload Plan Artifact
         uses: actions/upload-artifact@v4
