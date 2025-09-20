@@ -76,15 +76,15 @@ jobs:
         run: |
             infracost breakdown \
             --path iac \
-            --terraform-var-file config/${{ github.event.inputs.environment }}.tfvars \
+            --terraform-var-file ../config/${{ github.event.inputs.environment }}.tfvars \
             --usage-file infracost-usage.yml \
             --format table
 
       - name: Upload Plan Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: terraform-plan
-          path: iac/tfplan
+          name: ${{ github.event.inputs.environment }}.tfplan
+          path: iac
 
   terraform-apply:
     name: Terraform Apply
@@ -102,14 +102,11 @@ jobs:
         with:
           terraform_version: 1.9.8
 
-      - name: Azure Login
+      - name: Azure Login action
         uses: azure/login@v2
         with:
-          client-id: ${{ secrets.AZURE_CLIENT_ID }}
-          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
-          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
-          client-secret: ${{ secrets.AZURE_CLIENT_SECRET }}
-          enable-AzPSSession: false
+            creds: ${{ secrets.AZURE_CREDENTIALS }}
+            enable-AzPSSession: true
 
       - name: Criar backend-config.tfbackend
         run: |
