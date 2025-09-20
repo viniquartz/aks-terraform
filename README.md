@@ -14,6 +14,10 @@ Vou usar o comando a baixo.
 terraform init -backend-config="backend-config.tfbackend"
 ```
 
+## Azure Login
+
+https://learn.microsoft.com/pt-br/azure/developer/github/connect-from-azure?tabs=azure-portal%2Clinux
+
 ## Secrets
 
 Create a GitHub Actions secret AZURE_CREDENTIALS in the following format. Copy these values from your service principal.
