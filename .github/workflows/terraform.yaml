@@ -38,12 +38,14 @@ jobs:
           enable-AzPSSession: true
 
       - name: Create backend-config.tfbackend
+        env:
+          TF_ENVIRONMENT: ${{ github.event.inputs.environment }}
         run: |
           cat > backend-config.tfbackend <<EOL
           resource_group_name  = "${{ secrets.AZURE_BACKEND_RG }}"
           storage_account_name = "${{ secrets.AZURE_BACKEND_STORAGE }}"
           container_name       = "${{ secrets.AZURE_BACKEND_CONTAINER }}"
-          key                  = "aks-${{ github.event.inputs.environment }}.tfstate"
+          key                  = "aks-${{ env.TF_ENVIRONMENT }}.tfstate"
           sas_token            = "${{ secrets.AZURE_SAS_TOKEN }}"
           EOL
 
@@ -109,12 +111,14 @@ jobs:
           enable-AzPSSession: true
 
       - name: Criar backend-config.tfbackend
+        env:
+          TF_ENVIRONMENT: ${{ github.event.inputs.environment }}
         run: |
           cat > backend-config.tfbackend <<EOL
           resource_group_name  = "${{ secrets.AZURE_BACKEND_RG }}"
           storage_account_name = "${{ secrets.AZURE_BACKEND_STORAGE }}"
           container_name       = "${{ secrets.AZURE_BACKEND_CONTAINER }}"
-          key                  = "aks-${{ github.event.inputs.environment }}.tfstate"
+          key                  = "aks-${{ env.TF_ENVIRONMENT }}.tfstate"
           sas_token            = "${{ secrets.AZURE_SAS_TOKEN }}"
           EOL
 
