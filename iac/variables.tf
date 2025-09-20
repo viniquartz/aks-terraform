@@ -19,3 +19,7 @@ variable "tags" {
   description = "Map of tags to apply to all resources"
   type        = map(string)
 }
+
+variable "k8s_version" {
+  type = string
+}

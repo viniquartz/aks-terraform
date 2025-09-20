@@ -34,3 +34,24 @@ variable "cluster_name" {
   description = "Name of the AKS cluster"
   type        = string
 }
+
+variable "vnet_aks_subnet_id" {
+  type = string
+}
+
+variable "user_assigned_identity_id" {
+  type = string
+}
+
+variable "law_id" {
+  type = string
+}
+
+variable "aad_admin_group_ids" {
+  type = list(string)
+}
+
+variable "k8s_version" {
+  type = string
+  default = "1.27.6"
+}
