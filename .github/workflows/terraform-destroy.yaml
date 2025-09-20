@@ -1,0 +1,116 @@
+name: Terraform AKS Destroy
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: "Choice the environment (workspace)"
+        required: true
+        type: choice
+        options:
+          - staging
+          - production
+      confirmation:
+        description: "Type 'destroy' to confirm"
+        required: true
+        type: string
+
+jobs:
+  terraform-plan-destroy:
+    name: Plan Destroy
+    runs-on: ubuntu-latest
+    environment: ${{ github.event.inputs.environment }}
+
+    if: github.event.inputs.confirmation == 'destroy'
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: 1.9.7
+
+      - name: Azure Login action
+        uses: azure/login@v2
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+          enable-AzPSSession: true
+
+      - name: Create backend-config.tfbackend
+        run: |
+          cat > backend-config.tfbackend <<EOL
+          resource_group_name  = "${{ secrets.AZURE_BACKEND_RG }}"
+          storage_account_name = "${{ secrets.AZURE_BACKEND_STORAGE }}"
+          container_name       = "${{ secrets.AZURE_BACKEND_CONTAINER }}"
+          key                  = "aks-${{ github.event.inputs.environment }}.tfstate"
+          sas_token            = "${{ secrets.AZURE_SAS_TOKEN }}"
+          EOL
+
+      - name: Terraform Init
+        run: terraform -chdir=iac init -backend-config=../backend-config.tfbackend
+
+      - name: Select Workspace
+        run: terraform -chdir=iac workspace select ${{ github.event.inputs.environment }}
+
+      - name: Terraform Plan Destroy
+        run: |
+          echo "Gerando plano de destruição para ${{ github.event.inputs.environment }}..."
+          terraform -chdir=iac plan -destroy -out=${{ github.event.inputs.environment }}.tfplan -var-file=../config/${{ github.event.inputs.environment }}.tfvars
+
+      - name: Upload Destroy Plan Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ github.event.inputs.environment }}-destroy-plan
+          path: iac/${{ github.event.inputs.environment }}.tfplan
+
+  terraform-apply-destroy:
+    name: Apply Destroy
+    runs-on: ubuntu-latest
+    environment: ${{ github.event.inputs.environment }}
+    needs: terraform-plan-destroy
+    
+    if: success() && github.event.inputs.confirmation == 'destroy'
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: 1.9.7
+
+      - name: Azure Login action
+        uses: azure/login@v2
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+          enable-AzPSSession: true
+
+      - name: Create backend-config.tfbackend
+        run: |
+          cat > backend-config.tfbackend <<EOL
+          resource_group_name  = "${{ secrets.AZURE_BACKEND_RG }}"
+          storage_account_name = "${{ secrets.AZURE_BACKEND_STORAGE }}"
+          container_name       = "${{ secrets.AZURE_BACKEND_CONTAINER }}"
+          key                  = "aks-${{ github.event.inputs.environment }}.tfstate"
+          sas_token            = "${{ secrets.AZURE_SAS_TOKEN }}"
+          EOL
+
+      - name: Terraform Init
+        run: terraform -chdir=iac init -backend-config=../backend-config.tfbackend
+
+      - name: Select Workspace
+        run: terraform -chdir=iac workspace select ${{ github.event.inputs.environment }}
+
+      - name: Download Destroy Plan Artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ github.event.inputs.environment }}-destroy-plan
+          path: iac
+
+      - name: Terraform Apply Destroy
+        run: |
+          echo "Aplicando plano de destruição em ${{ github.event.inputs.environment }}..."
+          terraform -chdir=iac apply -auto-approve ${{ github.event.inputs.environment }}.tfplan
