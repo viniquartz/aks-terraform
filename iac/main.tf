@@ -47,7 +47,7 @@ module "cluster-aks" {
   vnet_aks_subnet_id        = module.network-spoke-aks.vnet_aks_subnet_id
   user_assigned_identity_id = module.identity.aks_identity_id
   law_id                    = module.log_analytics.law_id
-  aad_admin_group_ids       = module.aad.aks_admins_group
+  aad_admin_group_ids       = [module.aad.aks_admins_group]
   k8s_version               = var.k8s_version
   tags                      = var.tags
   depends_on                = [module.rg, module.network-spoke-aks, module.identity, module.log_analytics, module.aad]
