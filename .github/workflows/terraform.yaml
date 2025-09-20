@@ -20,7 +20,6 @@ jobs:
   terraform-plan:
     name: Terraform Plan
     runs-on: ubuntu-latest
-    environment: ${{ github.event.inputs.environment }}
 
     steps:
       - name: Checkout repository
@@ -91,7 +90,6 @@ jobs:
   terraform-apply:
     name: Terraform Apply
     runs-on: ubuntu-latest
-    environment: ${{ github.event.inputs.environment }}
     needs: terraform-plan
     if: github.event.inputs.environment == 'staging' || github.event.inputs.environment == 'production'
 
