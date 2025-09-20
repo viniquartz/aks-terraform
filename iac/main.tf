@@ -13,7 +13,7 @@ module "cluster-aks" {
   resource_group_name = module.rg.rg-aks-name
   name_project        = var.name_project
   tags                = var.tags
-  depends_on          = [module.rg, module.ssh]
+  depends_on          = [module.rg]
 }
 
 module "acr" {
