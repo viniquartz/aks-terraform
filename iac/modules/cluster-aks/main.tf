@@ -13,13 +13,7 @@ resource "azurerm_kubernetes_cluster" "k8s" {
     vm_size    = "standard_b2s"
     node_count = 2
   }
-  linux_profile {
-    admin_username = "azureadmin"
 
-    ssh_key {
-      key_data = var.key_data
-    }
-  }
   network_profile {
     network_plugin    = "kubenet"
     load_balancer_sku = "standard"
