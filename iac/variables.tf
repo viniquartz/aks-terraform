@@ -22,4 +22,5 @@ variable "tags" {
 
 variable "k8s_version" {
   type = string
+  default = "1.27.6"
 }

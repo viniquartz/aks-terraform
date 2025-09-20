@@ -53,5 +53,4 @@ variable "aad_admin_group_ids" {
 
 variable "k8s_version" {
   type = string
-  default = "1.27.6"
 }
