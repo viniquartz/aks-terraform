@@ -76,7 +76,7 @@ jobs:
         run: |
             infracost breakdown \
             --path iac \
-            --var-file config/${{ github.event.inputs.environment }}.tfvars \
+            --terraform-var-file config/${{ github.event.inputs.environment }}.tfvars \
             --usage-file infracost-usage.yml \
             --format table
 

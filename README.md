@@ -16,10 +16,14 @@ terraform init -backend-config="backend-config.tfbackend"
 
 ## Secrets
 
-AZURE_CLIENT_ID App Registration Client ID
-AZURE_TENANT_ID Tenant ID
-AZURE_SUBSCRIPTION_ID Subscription ID
-AZURE_CLIENT_SECRET Client Secret
+Create a GitHub Actions secret AZURE_CREDENTIALS in the following format. Copy these values from your service principal.
+  {
+      "clientId": "Client ID",
+      "clientSecret": "Client Secret",
+      "subscriptionId": "Subscription ID",
+      "tenantId": "Tenant ID"
+  }
+
 AZURE_BACKEND_RG Resource Group do backend
 AZURE_BACKEND_STORAGE Storage Account
 AZURE_BACKEND_CONTAINER Container do state
