@@ -8,7 +8,7 @@ module "rg" {
 
 module "network-spoke-aks" {
   source              = "./modules/network-spoke-aks"
-  resource_group_name = var.resource_group_name
+  resource_group_name = module.rg.rg-aks-name
   location            = var.location
   name_project        = var.name_project
   tags                = var.tags
@@ -17,7 +17,7 @@ module "network-spoke-aks" {
 
 module "identity" {
   source              = "./modules/identity"
-  resource_group_name = var.resource_group_name
+  resource_group_name = module.rg.rg-aks-name
   location            = var.location
   name_project        = var.name_project
   tags                = var.tags
@@ -26,7 +26,7 @@ module "identity" {
 
 module "log_analytics" {
   source              = "./modules/log-analytics"
-  resource_group_name = var.resource_group_name
+  resource_group_name = module.rg.rg-aks-name
   location            = var.location
   name_project        = var.name_project
   tags                = var.tags
