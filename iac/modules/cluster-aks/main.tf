@@ -29,7 +29,6 @@ resource "azurerm_kubernetes_cluster" "k8s" {
   network_profile {
     network_plugin      = "azure"
     network_policy      = "calico"
-    service_cidr      = "10.3.0.0/24"
     load_balancer_sku   = "standard"
     outbound_type       = "loadBalancer"
   }
