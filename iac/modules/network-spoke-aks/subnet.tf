@@ -2,7 +2,7 @@ resource "azurerm_subnet" "aks_subnet" {
   name                 = "${var.name_project}-vnet-spoke-subnet-aks"
   resource_group_name  = var.resource_group_name
   virtual_network_name = azurerm_virtual_network.vnet-spoke-aks.name
-  address_prefixes     = ["10.2.0.0/24"]
+  address_prefixes     = ["10.1.1.0/24"]
 
   # delegation {
   #   name = "aks_delegation"
