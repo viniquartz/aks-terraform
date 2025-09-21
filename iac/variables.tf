@@ -21,6 +21,11 @@ variable "tags" {
 }
 
 variable "k8s_version" {
-  type = string
+  type    = string
   default = "1.27.6"
+}
+
+variable "aad_admin_group_ids" {
+  type    = list(string)
+  default = ["46b4f795-5c32-49f7-bd10-6fbf1788cd35"]
 }
