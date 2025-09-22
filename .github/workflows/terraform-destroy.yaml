@@ -14,6 +14,11 @@ on:
         description: "Type 'destroy' to confirm"
         required: true
         type: string
+      wait_time:
+        description: "Wait time (seconds) after cluster destroy"
+        required: false
+        default: "300"
+        type: string
 
 jobs:
   terraform-plan-destroy:
@@ -55,6 +60,16 @@ jobs:
 
       - name: Select Workspace
         run: terraform -chdir=iac workspace select ${{ github.event.inputs.environment }}
+
+      - name: Destroy aks first
+        run: |
+          echo "Destruindo apenas o cluster AKS em ${{ github.event.inputs.environment }}..."
+          terraform -chdir=iac destroy -auto-approve -target=module.cluster-aks -var-file=../config/${{ github.event.inputs.environment }}.tfvars
+
+      - name: Wait for Azure to Release Resources
+        run: |
+          echo "Aguardando ${{ github.event.inputs.wait_time }} segundos para Azure liberar subnet e IPs..."
+          sleep ${{ github.event.inputs.wait_time }}
 
       - name: Terraform Plan Destroy
         run: |
