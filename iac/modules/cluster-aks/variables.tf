@@ -35,22 +35,22 @@ variable "cluster_name" {
   type        = string
 }
 
-variable "vnet_aks_subnet_id" {
-  type = string
-}
+# variable "vnet_aks_subnet_id" {
+#   type = string
+# }
 
-variable "user_assigned_identity_id" {
-  type = string
-}
+# variable "user_assigned_identity_id" {
+#   type = string
+# }
 
-variable "law_id" {
-  type = string
-}
+# variable "law_id" {
+#   type = string
+# }
 
-variable "aad_admin_group_ids" {
-  type = list(string)
-}
+# variable "aad_admin_group_ids" {
+#   type = list(string)
+# }
 
-variable "k8s_version" {
-  type = string
-}
+# variable "k8s_version" {
+#   type = string
+# }
