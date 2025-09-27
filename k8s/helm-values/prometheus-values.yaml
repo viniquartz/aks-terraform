@@ -1,0 +1,29 @@
+prometheus:
+  prometheusSpec:
+    replicas: 2
+    retention: "15d"
+    evaluationInterval: "1m"
+    storageSpec:
+      volumeClaimTemplate:
+        spec:
+          accessModes: ["ReadWriteOnce"]
+          resources:
+            requests:
+              storage: 20Gi
+
+grafana:
+  enabled: true
+  adminUser: admin
+  adminPassword: "change-me" # use Kubernetes Secret in prod
+  persistence:
+    enabled: true
+    size: 5Gi
+
+prometheusOperator:
+  createCustomResource: true
+
+nodeExporter:
+  enabled: true
+
+kubeStateMetrics:
+  enabled: true

@@ -1,0 +1,10 @@
+controller:
+  service:
+    type: LoadBalancer
+    annotations:
+      # internal LB (se quiser interno):
+      # service.beta.kubernetes.io/azure-load-balancer-internal: "true"
+  metrics:
+    enabled: true
+  admissionWebhooks:
+    enabled: true
